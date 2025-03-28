@@ -1,0 +1,44 @@
+# Dart/Pub related files
+.dart_tool/
+.packages
+pubspec.lock
+
+# Flutter related files
+flutter_bootstrap/
+.ios/
+.android/
+build/
+
+# IDE/editor specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code settings
+.vscode/
+
+# macOS specific files
+.DS_Store
+
+# Linux specific files
+*.so
+
+# Windows specific files
+Thumbs.db
+*.exe
+*.dll
+*.pdb
+
+# Logs and crash reports
+*.log
+
+# Coverage reports
+coverage/
+
+# Generated plugin files
+plugin/
+
+# Temporary files
+*.tmp
+*.swp

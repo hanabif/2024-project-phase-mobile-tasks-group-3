@@ -178,7 +178,7 @@ class DetailsPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Center(
-                        child: Container(
+                        child: SizedBox(
                           width: 330,
                           height: 56,
                           child: ElevatedButton(

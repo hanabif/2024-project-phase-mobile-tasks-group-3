@@ -49,7 +49,7 @@ class SignIn extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({super.key});
+  const _Header();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _Header extends StatelessWidget {
 }
 
 class _Form extends StatelessWidget {
-  const _Form({super.key});
+  const _Form();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class _Form extends StatelessWidget {
 }
 
 class _SignInButton extends StatelessWidget {
-  const _SignInButton({super.key});
+  const _SignInButton();
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +128,7 @@ class _SignInButton extends StatelessWidget {
 }
 
 class _SignUp extends StatelessWidget {
-  const _SignUp({super.key});
+  const _SignUp();
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +154,7 @@ class _SignUp extends StatelessWidget {
 }
 
 class _Social extends StatelessWidget {
-  const _Social({super.key});
+  const _Social();
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +188,6 @@ class _SocialButton extends StatelessWidget {
   final IconData icon;
   final Color color;
   const _SocialButton({
-    super.key,
     required this.icon,
     required this.color,
   });
