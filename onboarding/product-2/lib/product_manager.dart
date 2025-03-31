@@ -1,69 +1,33 @@
-import 'product.dart';
+import 'package:product_2/entities/product.dart';
+import 'package:product_2/use%20cases/CreateProductUsecase.dart';
+import 'package:product_2/use%20cases/DeleteProductUsecase.dart';
+import 'package:product_2/use%20cases/UpdateProductUsecase.dart';
+import 'package:product_2/use%20cases/ViewAllProductsUsecase.dart';
+import 'package:product_2/use%20cases/ViewProductUsecase.dart';
 
 class ProductManager {
   List<Product> products = [];
 
-  ProductManager() {
-    addProduct(Product(
-        name: 'Laptop',
-        description: 'High-performance laptop',
-        price: 1200.00));
-    addProduct(Product(
-        name: 'Smartphone ',
-        description: 'Latest model smartphone',
-        price: 800.00));
-    addProduct(Product(
-        name: 'Headphones',
-        description: 'Noise-cancelling headphones',
-        price: 250.00));
-  }
+  final viewAllProductsUsecase;
+  final viewProductUsecase;
+  final createProductUsecase;
+  final updateProductUsecase;
+  final deleteProductUsecase;
 
-  void addProduct(Product product) {
-    products.add(product);
-    print('Product added: ${product.name}');
-  }
+  ProductManager()
+      : viewAllProductsUsecase = ViewAllProductsUsecase([]),
+        viewProductUsecase = ViewProductUsecase([]),
+        createProductUsecase = CreateProductUsecase([]),
+        updateProductUsecase = UpdateProductUsecase([]),
+        deleteProductUsecase = DeleteProductUsecase([]);
 
-  void viewAllProducts() {
-    if (products.isEmpty) {
-      print('No products available.');
-    } else {
-      print('All Products:');
-      for (var product in products) {
-        print(product);
-      }
-    }
-  }
+  void addProduct(Product product) => createProductUsecase.call(product);
 
-  void viewSingleProduct(String name) {
-    var product = products.firstWhere(
-      (p) => p.name == name,
-      orElse: () => Product(name: '', description: '', price: 0),
-    );
-    if (product.name.isNotEmpty) {
-      print('Product Found: $product');
-    } else {
-      print('Product not found.');
-    }
-  }
+  void viewAllProducts() => print(viewAllProductsUsecase.call());
 
-  void editProduct(
-      String name, String newName, String newDescription, double newPrice) {
-    var product = products.firstWhere(
-      (p) => p.name == name,
-      orElse: () => Product(name: '', description: '', price: 0),
-    );
-    if (product.name.isNotEmpty) {
-      product.setName = newName;
-      product.setDescription = newDescription;
-      product.setPrice = newPrice;
-      print('Product updated: $product');
-    } else {
-      print('Product not found.');
-    }
-  }
+  void viewSingleProduct(String id) => print(viewProductUsecase.call(id));
 
-  void deleteProduct(String name) {
-    products.removeWhere((p) => p.name == name);
-    print('Product deleted: $name');
-  }
+  void editProduct(Product updatedProduct) => updateProductUsecase.call(updatedProduct);
+
+  void deleteProduct(String id) => deleteProductUsecase.call(id);
 }
