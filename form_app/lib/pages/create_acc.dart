@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_app/widgets/custom_form_field.dart';
 
@@ -49,28 +50,55 @@ class CreateAcc extends StatelessWidget {
   }
 }
 
-class _Form extends StatelessWidget {
-  const _Form();
+class _Form extends StatefulWidget {
+  @override
+  _FormState createState() => _FormState();
+}
+
+class _FormState extends State<_Form> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
+  Future<void> signUp() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Account Created Successfully!")),
+      );
+      Navigator.pushReplacementNamed(context, '/sign_in');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 30),
-        CustomFormField(label: 'Full Name', hint: 'Enter Your Full Name'),
+        CustomFormField(label: 'Full Name', hint: 'Enter Your Full Name', controller: nameController),
         SizedBox(height: 24),
-        CustomFormField(
-            label: 'Password', hint: "Enter Your Password", isPassword: true),
+        CustomFormField(label: 'Email', hint: 'Enter Your Email', controller: emailController),
         SizedBox(height: 24),
+        CustomFormField(label: 'Password', hint: 'Enter Your Password', isPassword: true, controller: passwordController),
+        SizedBox(height: 24),
+        CustomFormField(label: 'Mobile Number', hint: 'Enter Your Phone Number', controller: phoneController),
         SizedBox(height: 30),
-        CustomFormField(label: 'Email', hint: 'Enter Your Email'),
-        SizedBox(height: 30),
-        CustomFormField(
-            label: 'Mobile Number', hint: 'Enter Your Phone Number'),
+        ElevatedButton(
+          onPressed: signUp,
+          child: Text("Sign Up"),
+        ),
       ],
     );
   }
 }
+
 
 class _SignInButton extends StatelessWidget {
   const _SignInButton();

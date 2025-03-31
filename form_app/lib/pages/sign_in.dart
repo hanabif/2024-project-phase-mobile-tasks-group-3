@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:form_app/widgets/custom_form_field.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 class SignIn extends StatelessWidget {
   const SignIn({super.key});
 
@@ -66,37 +66,61 @@ class _Header extends StatelessWidget {
   }
 }
 
-class _Form extends StatelessWidget {
-  const _Form();
+class _Form extends StatefulWidget {
+  @override
+  _FormState createState() => _FormState();
+}
+
+class _FormState extends State<_Form> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> signIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login Successful!")),
+      );
+      Navigator.pushReplacementNamed(context, '/home'); 
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 60),
-        CustomFormField(label: 'Email', hint: 'Enter Your Email'),
+        CustomFormField(label: 'Email', hint: 'Enter Your Email', controller: emailController),
         SizedBox(height: 24),
-        CustomFormField(
-            label: 'Password', hint: "Enter Your Password", isPassword: true),
+        CustomFormField(label: 'Password', hint: "Enter Your Password", isPassword: true, controller: passwordController),
         SizedBox(height: 8),
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            onPressed: () {},
-            child: Text('Forgot Password?',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w800,
-                )),
+            onPressed: () {}, // Implement password reset later
+            child: Text('Forgot Password?'),
           ),
-        )
+        ),
+        SizedBox(height: 24),
+        ElevatedButton(
+          onPressed: signIn,
+          child: Text("Sign In"),
+        ),
       ],
     );
   }
 }
 
+
 class _SignInButton extends StatelessWidget {
   const _SignInButton();
+  
 
   @override
   Widget build(BuildContext context) {
